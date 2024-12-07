@@ -4,9 +4,9 @@ dotenv.config();
 
 export const dbConfig = async () => {
   try {
-    await connect(process.env.MONGO_URL as string).then(() => {
+    await connect(process.env.MONGO_URL_LIVE as string).then(() => {
       console.clear();
-      console.log("Connected to MongoDB ❤️❤️🚀🚀🎮🎮");
+      console.log("Connected to MongoDB _LIVE❤️❤️🚀🚀🎮🎮");
     });
   } catch (error) {
     return error;
