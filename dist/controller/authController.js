@@ -18,6 +18,7 @@ const crypto_1 = __importDefault(require("crypto"));
 const authModel_1 = __importDefault(require("../model/authModel"));
 const jsonwebtoken_1 = __importDefault(require("jsonwebtoken"));
 const dotenv_1 = __importDefault(require("dotenv"));
+const cloudinary_1 = __importDefault(require("../utils/cloudinary"));
 dotenv_1.default.config();
 // AUTH
 const createUser = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
@@ -158,11 +159,17 @@ exports.updateOneUserName = updateOneUserName;
 const updateOneUserAvatar = (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     try {
         const { userID } = req.params;
+        const userData = yield authModel_1.default.findById(userID);
+        if (userData === null || userData === void 0 ? void 0 : userData.avatarID) {
+            yield cloudinary_1.default.uploader.destroy(userData === null || userData === void 0 ? void 0 : userData.avatarID);
+        }
+        const { secure_url, public_id } = yield cloudinary_1.default.uploader.upload(req.file.path);
         const user = yield authModel_1.default.findByIdAndUpdate(userID, {
-            avatar: "",
+            avatar: secure_url,
+            avatarID: public_id,
         }, { new: true });
         return res.status(201).json({
-            message: "update user names successfully",
+            message: "update user avatar successfully",
             data: user,
             status: 201,
         });

@@ -12,3 +12,4 @@ cloudinary_1.v2.config({
     api_key: process.env.CLOUDINARY_KEY,
     api_secret: process.env.CLOUDINARY_SECRET,
 });
+exports.default = cloudinary_1.v2;

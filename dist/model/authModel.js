@@ -4,6 +4,7 @@ const mongoose_1 = require("mongoose");
 const authModel = new mongoose_1.Schema({
     accNumber: {
         type: String,
+        unique: true,
     },
     userName: {
         type: String,
@@ -29,5 +30,15 @@ const authModel = new mongoose_1.Schema({
     avatarID: {
         type: String,
     },
+    wallet: {
+        type: Number,
+        default: 200,
+    },
+    transactionHistory: [
+        {
+            type: mongoose_1.Types.ObjectId,
+            ref: "transactions",
+        },
+    ],
 }, { timestamps: true });
 exports.default = (0, mongoose_1.model)("users", authModel);
